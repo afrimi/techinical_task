@@ -1,0 +1,33 @@
+<dx-load-panel [position]="loadPanelPosition" [visible]="isLoading">
+</dx-load-panel>
+<dx-data-grid
+  id="gridContainer"
+  [dataSource]="employees$ | async"
+  keyExpr="id"
+  [allowColumnReordering]="true"
+  [showBorders]="true"
+  [repaintChangesOnly]="true"
+  (onEditorPreparing)="onEditorPreparing($event)"
+  (onSaving)="onSaving($event)"
+>
+  <dxo-editing
+    mode="row"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+    [allowUpdating]="true"
+    [(changes)]="changes"
+    [(editRowKey)]="editRowKey"
+  ></dxo-editing>
+
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="age" [width]="100"></dxi-column>
+  <dxi-column dataField="addressId" caption="Address">
+    <dxo-lookup [dataSource]="addresses$ | async" displayExpr="fullAddress" valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="positionId" caption="Position" [width]="130">
+    <dxo-lookup [dataSource]="positions$ | async" displayExpr="name" valueExpr="id">
+    </dxo-lookup>
+  </dxi-column>
+  <dxi-column dataField="signingTimeUtc" [width]="125" dataType="date"> </dxi-column>
+</dx-data-grid>
